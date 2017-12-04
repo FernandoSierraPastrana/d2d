@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.fernandosierra.door2door.presentation.splash.SplashActivity">
+
+    <com.fernandosierra.door2door.presentation.custom.LoaderView
+        android:id="@+id/lottie_splash_loader"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:lottie_fileName="@string/main_loader"
+        app:lottie_loop="true" />
+
+</FrameLayout>

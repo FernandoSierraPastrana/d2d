@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">Door2Door</string>
+    <string name="main_loader">ripple_loading_animation.json</string>
+</resources>
