@@ -1,7 +1,7 @@
 package com.fernandosierra.door2door.presentation.di;
 
-import com.fernandosierra.door2door.presentation.splash.SplashActivity;
-import com.fernandosierra.door2door.presentation.splash.SplashView;
+import com.fernandosierra.door2door.presentation.screens.splash.SplashActivity;
+import com.fernandosierra.door2door.presentation.screens.splash.SplashView;
 
 import dagger.Binds;
 import dagger.Module;

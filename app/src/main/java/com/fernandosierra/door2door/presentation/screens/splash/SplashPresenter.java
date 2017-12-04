@@ -1,4 +1,4 @@
-package com.fernandosierra.door2door.presentation.splash;
+package com.fernandosierra.door2door.presentation.screens.splash;
 
 import android.support.annotation.NonNull;
 
@@ -20,21 +20,26 @@ public class SplashPresenter extends BasePresenter<SplashView> {
     }
 
     public void init() {
-        view(SplashView::init);
+        secureViewCall(SplashView::init);
     }
 
     public void loadLocalData() {
-        view(SplashView::showLoader);
+        secureViewCall(SplashView::showLoader);
         final String localDataJson = Door2DoorUtils.instance.readJsonAsset(LOCAL_JSON);
         if (localDataJson != null) {
             setupInteractor.setupFromLocalData(localDataJson, new CompletableObserverAdapter() {
                 @Override
                 public void onComplete() {
-                    view(SplashView::hideLoader);
+                    secureViewCall(view -> view.hideLoader(() -> secureViewCall(SplashView::goHome)));
+                }
+
+                @Override
+                public void onError(Throwable e) {
+                    secureViewCall(view -> view.hideLoader(() -> secureViewCall(SplashView::showErrorDialog)));
                 }
             });
         } else {
-            view(SplashView::hideLoader);
+            secureViewCall(view -> view.hideLoader(null));
         }
     }
 }

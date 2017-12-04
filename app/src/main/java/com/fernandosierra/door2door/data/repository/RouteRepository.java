@@ -38,8 +38,6 @@ public class RouteRepository {
     public void loadLocalDataIfItIsNecessary(@NonNull String localJson, @NonNull DisposableCompletableObserver observer) {
         if (routeDataSource.isEmpty() || providerDataSource.isEmpty()) {
             Single.just(localDataParser.readAndParseJson(localJson))
-                    .subscribeOn(Schedulers.computation())
-                    .observeOn(SchedulersHelper.INSTANCE.getScheduler(SchedulersHelper.REALM))
                     .flatMapCompletable(pair -> Completable.create(emitter -> {
                         providerDataSource.createOrUpdate(pair.getFirst());
                         Observable.fromIterable(pair.getSecond())
@@ -63,6 +61,7 @@ public class RouteRepository {
                                     }
                                 });
                     }))
+                    .subscribeOn(SchedulersHelper.INSTANCE.getScheduler(SchedulersHelper.REALM))
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(observer);
         } else {

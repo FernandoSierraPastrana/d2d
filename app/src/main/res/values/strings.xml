@@ -1,4 +1,8 @@
 <resources>
     <string name="app_name">Door2Door</string>
     <string name="main_loader">ripple_loading_animation.json</string>
+    <string name="title_splash_retry_dialog">Retry route\'s search?</string>
+    <string name="message_splash_retry_dialog">We got lost when we were looking for the best options for you</string>
+    <string name="retry_splash_retry_dialog">Retry</string>
+    <string name="cancel_splash_retry_dialog">Cancel</string>
 </resources>

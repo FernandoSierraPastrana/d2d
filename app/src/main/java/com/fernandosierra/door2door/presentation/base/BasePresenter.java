@@ -11,7 +11,7 @@ public abstract class BasePresenter<V extends BaseView> {
         this.viewRef = new WeakReference<>(view);
     }
 
-    public void view(@NonNull SecureViewCallback<V> secureViewCallback) {
+    public void secureViewCall(@NonNull SecureViewCallback<V> secureViewCallback) {
         V view = viewRef.get();
         if (view != null) {
             secureViewCallback.execute(view);
