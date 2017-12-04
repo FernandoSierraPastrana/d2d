@@ -12,5 +12,5 @@ interface SplashView : BaseView {
 
     fun showErrorDialog()
 
-    fun goHome()
+    fun goRoutes()
 }

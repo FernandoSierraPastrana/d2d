@@ -5,4 +5,5 @@
     <string name="message_splash_retry_dialog">We got lost when we were looking for the best options for you</string>
     <string name="retry_splash_retry_dialog">Retry</string>
     <string name="cancel_splash_retry_dialog">Cancel</string>
+    <string name="title_activity_routes">Routes</string>
 </resources>

@@ -30,7 +30,7 @@ public class SplashPresenter extends BasePresenter<SplashView> {
             setupInteractor.setupFromLocalData(localDataJson, new CompletableObserverAdapter() {
                 @Override
                 public void onComplete() {
-                    secureViewCall(view -> view.hideLoader(() -> secureViewCall(SplashView::goHome)));
+                    secureViewCall(view -> view.hideLoader(() -> secureViewCall(SplashView::goRoutes)));
                 }
 
                 @Override

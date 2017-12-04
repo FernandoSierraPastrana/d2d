@@ -5,7 +5,7 @@ import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import com.fernandosierra.door2door.R
 import com.fernandosierra.door2door.presentation.custom.LoaderView
-import com.fernandosierra.door2door.presentation.screens.home.HomeActivity
+import com.fernandosierra.door2door.presentation.screens.routes.RoutesActivity
 import com.fernandosierra.door2door.presentation.util.launchActivity
 import dagger.android.AndroidInjection
 import kotlinx.android.synthetic.main.activity_splash.*
@@ -56,8 +56,8 @@ class SplashActivity : AppCompatActivity(), SplashView {
                 .show()
     }
 
-    override fun goHome() {
-        launchActivity<HomeActivity>()
+    override fun goRoutes() {
+        launchActivity<RoutesActivity>()
         finish()
     }
 }
