@@ -1,6 +1,6 @@
 package com.fernandosierra.door2door.data.source;
 
-import com.fernandosierra.door2door.domain.model.Route;
+import com.fernandosierra.door2door.domain.model.RRoute;
 
 import org.jetbrains.annotations.Nullable;
 
@@ -8,11 +8,11 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 @Singleton
-public class RouteDataSource extends DataSource<Route> {
+public class RouteDataSource extends DataSource<RRoute> {
 
     @Inject
-    public RouteDataSource() {
-        super(Route.class);
+    RouteDataSource() {
+        super(RRoute.class);
     }
 
     @Nullable

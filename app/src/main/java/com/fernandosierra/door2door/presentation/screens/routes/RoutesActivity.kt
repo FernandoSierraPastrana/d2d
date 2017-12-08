@@ -1,44 +1,79 @@
 package com.fernandosierra.door2door.presentation.screens.routes
 
-import android.support.v7.app.AppCompatActivity
+import android.graphics.Color
 import android.os.Bundle
+import android.support.v7.app.AppCompatActivity
+import android.util.SparseArray
 import com.fernandosierra.door2door.R
-
+import com.fernandosierra.door2door.domain.model.Route
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
-import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.gms.maps.model.*
+import dagger.android.AndroidInjection
+import javax.inject.Inject
 
-class RoutesActivity : AppCompatActivity(), OnMapReadyCallback {
+class RoutesActivity : AppCompatActivity(), RoutesView, OnMapReadyCallback {
+    companion object {
+        private const val POLYLINE_WIDTH = 15.0f
+    }
 
-    private lateinit var mMap: GoogleMap
+    @Inject
+    lateinit var presenter: RoutesPresenter
+    private lateinit var googleMap: GoogleMap
+    private var currentRoute = 0
+    private val routesSparseArray = SparseArray<List<Polyline>>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        AndroidInjection.inject(this)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_routes)
-        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-        val mapFragment = supportFragmentManager
-                .findFragmentById(R.id.map) as SupportMapFragment
+        presenter.init()
+    }
+
+    override fun onMapReady(googleMap: GoogleMap) {
+        this.googleMap = googleMap
+        presenter.drawRoutes()
+    }
+
+    override fun init() {
+        val mapFragment = supportFragmentManager.findFragmentById(R.id.map_routes) as SupportMapFragment
         mapFragment.getMapAsync(this)
     }
 
-    /**
-     * Manipulates the map once available.
-     * This callback is triggered when the map is ready to be used.
-     * This is where we can add markers or lines, add listeners or move the camera. In this case,
-     * we just add a marker near Sydney, Australia.
-     * If Google Play services is not installed on the device, the user will be prompted to install
-     * it inside the SupportMapFragment. This method will only be triggered once the user has
-     * installed Google Play services and returned to the app.
-     */
-    override fun onMapReady(googleMap: GoogleMap) {
-        mMap = googleMap
+    override fun drawRoutes(routes: List<Route>) {
+        lateinit var routeBounds: LatLngBounds
+        val roundCap = RoundCap()
+        routes.mapIndexed { index, route ->
+            if (index == 0) {
+                routeBounds = getRouteBounds(route)
+            }
+            route.segments.map {
+                googleMap.addPolyline(PolylineOptions()
+                        .color(Color.parseColor(it.color))
+                        .width(POLYLINE_WIDTH)
+                        .clickable(true)
+                        .geodesic(true)
+                        .jointType(JointType.ROUND)
+                        .startCap(roundCap)
+                        .endCap(roundCap)
+                        .visible(index == 0)
+                        .addAll(it.polyline))
+            }
+        }.forEachIndexed { index, polylines -> routesSparseArray.put(index, polylines) }
+        googleMap.moveCamera(CameraUpdateFactory.newLatLngBounds(routeBounds, 40))
+    }
 
-        // Add a marker in Sydney and move the camera
-        val sydney = LatLng(-34.0, 151.0)
-        mMap.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney"))
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney))
+    private fun getRouteBounds(route: Route): LatLngBounds {
+        val builder = LatLngBounds.Builder()
+        route.segments.flatMap { it.polyline }.forEach { builder.include(it) }
+        return builder.build()
+    }
+
+    override fun updateRoute(position: Int) {
+        routesSparseArray.get(currentRoute).map { it.isVisible = false }
+        routesSparseArray.get(position).map { it.isVisible = true }
+        currentRoute = position
     }
 }

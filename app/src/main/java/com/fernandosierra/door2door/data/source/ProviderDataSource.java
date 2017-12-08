@@ -1,6 +1,6 @@
 package com.fernandosierra.door2door.data.source;
 
-import com.fernandosierra.door2door.domain.model.Provider;
+import com.fernandosierra.door2door.domain.model.RProvider;
 
 import org.jetbrains.annotations.Nullable;
 
@@ -8,16 +8,16 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 @Singleton
-public class ProviderDataSource extends DataSource<Provider> {
+public class ProviderDataSource extends DataSource<RProvider> {
 
     @Inject
-    public ProviderDataSource() {
-        super(Provider.class);
+    ProviderDataSource() {
+        super(RProvider.class);
     }
 
     @Nullable
     @Override
     public String getPrimaryKey() {
-        return Provider.PRIMARY_KEY;
+        return RProvider.PRIMARY_KEY;
     }
 }

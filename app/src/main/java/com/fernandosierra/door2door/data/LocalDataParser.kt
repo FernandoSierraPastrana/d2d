@@ -1,7 +1,7 @@
 package com.fernandosierra.door2door.data
 
-import com.fernandosierra.door2door.domain.model.Provider
-import com.fernandosierra.door2door.domain.model.Route
+import com.fernandosierra.door2door.domain.model.RProvider
+import com.fernandosierra.door2door.domain.model.RRoute
 import com.google.gson.Gson
 import com.google.gson.JsonSyntaxException
 import com.google.gson.reflect.TypeToken
@@ -19,9 +19,9 @@ class LocalDataParser @Inject constructor(val gson: Gson) {
         private const val ROUTES = "routes"
     }
 
-    fun readAndParseJson(json: String): Pair<List<Provider>, List<Route>> {
-        val providers = mutableListOf<Provider>()
-        val routes = mutableListOf<Route>()
+    fun readAndParseJson(json: String): Pair<List<RProvider>, List<RRoute>> {
+        val providers = mutableListOf<RProvider>()
+        val routes = mutableListOf<RRoute>()
         try {
             val rootObject = JSONObject(json)
             val providersJsonObject = rootObject.getJSONObject(PROVIDERS)
@@ -35,15 +35,15 @@ class LocalDataParser @Inject constructor(val gson: Gson) {
         }
     }
 
-    private fun getProviders(providersJsonObject: JSONObject?, providers: MutableList<Provider>) {
+    private fun getProviders(providersJsonObject: JSONObject?, RProviders: MutableList<RProvider>) {
         if (providersJsonObject != null) {
             for (providerId in providersJsonObject.keys()) {
                 try {
-                    val providerFromJson: Provider? = gson.fromJson(providersJsonObject.getJSONObject(providerId).toString(),
-                            Provider::class.java)
-                    if (providerFromJson != null) {
-                        val provider = Provider(providerId, providerFromJson)
-                        providers.add(provider)
+                    val RProviderFromJson: RProvider? = gson.fromJson(providersJsonObject.getJSONObject(providerId).toString(),
+                            RProvider::class.java)
+                    if (RProviderFromJson != null) {
+                        val provider = RProvider(providerId, RProviderFromJson)
+                        RProviders.add(provider)
                     }
                 } catch (exception: JsonSyntaxException) {
                     Timber.e(exception)
@@ -52,9 +52,9 @@ class LocalDataParser @Inject constructor(val gson: Gson) {
         }
     }
 
-    private fun getRoutes(routesJsonArray: JSONArray?): List<Route> {
+    private fun getRoutes(routesJsonArray: JSONArray?): List<RRoute> {
         return if (routesJsonArray != null) {
-            gson.fromJson(routesJsonArray.toString(), object : TypeToken<List<Route>>() {}.type)
+            gson.fromJson(routesJsonArray.toString(), object : TypeToken<List<RRoute>>() {}.type)
         } else {
             listOf()
         }

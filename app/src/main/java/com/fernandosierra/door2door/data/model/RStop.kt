@@ -3,10 +3,10 @@ package com.fernandosierra.door2door.domain.model
 import com.google.gson.annotations.SerializedName
 import io.realm.RealmObject
 
-open class Stop(@SerializedName(LATITUDE) var latitude: Double = 0.0,
-                @SerializedName(LONGITUDE) var longitude: Double = 0.0,
-                @SerializedName(DATE) var date: String = "",
-                @SerializedName(NAME) var name: String? = null
+open class RStop(@SerializedName(LATITUDE) var latitude: Double = 0.0,
+                 @SerializedName(LONGITUDE) var longitude: Double = 0.0,
+                 @SerializedName(DATE) var date: String = "",
+                 @SerializedName(NAME) var name: String? = null
 ) : RealmObject() {
     companion object {
         private const val LATITUDE = "lat"

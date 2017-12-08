@@ -17,9 +17,7 @@ abstract class DataSource<T : RealmObject>(private val clazz: Class<T>) {
 
     fun createOrUpdate(realmObject: T, realm: Realm? = null) {
         when (realm) {
-            null -> Realm.getDefaultInstance().use {
-                it.copyToRealmOrUpdate(realmObject)
-            }
+            null -> Realm.getDefaultInstance().copyToRealmOrUpdate(realmObject)
             else -> realm.copyToRealmOrUpdate(realmObject)
         }
     }
@@ -35,9 +33,7 @@ abstract class DataSource<T : RealmObject>(private val clazz: Class<T>) {
 
     fun create(realmObject: T, realm: Realm? = null) {
         when (realm) {
-            null -> Realm.getDefaultInstance().use {
-                it.copyToRealm(realmObject)
-            }
+            null -> Realm.getDefaultInstance().copyToRealm(realmObject)
             else -> realm.copyToRealm(realmObject)
         }
     }
@@ -49,9 +45,7 @@ abstract class DataSource<T : RealmObject>(private val clazz: Class<T>) {
 
     fun getAll(): List<T> {
         val realmObjects = mutableListOf<T>()
-        Realm.getDefaultInstance().use {
-            realmObjects.addAll(it.where(clazz).findAll())
-        }
+        realmObjects.addAll(Realm.getDefaultInstance().where(clazz).findAll())
         return realmObjects
     }
 
@@ -61,9 +55,7 @@ abstract class DataSource<T : RealmObject>(private val clazz: Class<T>) {
             throw UnsupportedOperationException()
         } else {
             return when (realm) {
-                null -> Realm.getDefaultInstance().use {
-                    it.where(clazz).equalTo(primaryKey, key).findFirst()
-                }
+                null -> Realm.getDefaultInstance().where(clazz).equalTo(primaryKey, key).findFirst()
                 else -> realm.where(clazz).equalTo(primaryKey, key).findFirst()
             }
         }

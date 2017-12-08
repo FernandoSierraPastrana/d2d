@@ -3,8 +3,10 @@ package com.fernandosierra.door2door.data.repository;
 import android.support.annotation.NonNull;
 
 import com.fernandosierra.door2door.data.LocalDataParser;
+import com.fernandosierra.door2door.data.mapper.RRouteMapper;
 import com.fernandosierra.door2door.data.source.ProviderDataSource;
 import com.fernandosierra.door2door.data.source.RouteDataSource;
+import com.fernandosierra.door2door.domain.model.RRoute;
 import com.fernandosierra.door2door.domain.model.Route;
 import com.fernandosierra.door2door.presentation.util.SchedulersHelper;
 import com.fernandosierra.door2door.presentation.util.observer.SingleObserverAdapter;
@@ -19,20 +21,24 @@ import io.reactivex.Observable;
 import io.reactivex.Single;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.observers.DisposableCompletableObserver;
-import io.reactivex.schedulers.Schedulers;
+import io.reactivex.observers.DisposableSingleObserver;
 
 @Singleton
 public class RouteRepository {
     private final RouteDataSource routeDataSource;
     private final ProviderDataSource providerDataSource;
     private final LocalDataParser localDataParser;
+    private final RRouteMapper rRouteMapper;
 
     @Inject
-    RouteRepository(@NonNull RouteDataSource routeDataSource, @NonNull ProviderDataSource providerDataSource,
-                    @NonNull LocalDataParser localDataParser) {
+    RouteRepository(@NonNull RouteDataSource routeDataSource,
+                    @NonNull ProviderDataSource providerDataSource,
+                    @NonNull LocalDataParser localDataParser,
+                    @NonNull RRouteMapper rRouteMapper) {
         this.routeDataSource = routeDataSource;
         this.providerDataSource = providerDataSource;
         this.localDataParser = localDataParser;
+        this.rRouteMapper = rRouteMapper;
     }
 
     public void loadLocalDataIfItIsNecessary(@NonNull String localJson, @NonNull DisposableCompletableObserver observer) {
@@ -46,11 +52,11 @@ public class RouteRepository {
                                     return route;
                                 })
                                 .toList()
-                                .subscribe(new SingleObserverAdapter<List<Route>>() {
+                                .subscribe(new SingleObserverAdapter<List<RRoute>>() {
                                     @Override
-                                    public void onSuccess(List<Route> routes) {
+                                    public void onSuccess(List<RRoute> rRoutes) {
                                         routeDataSource.deleteAll();
-                                        routeDataSource.create(routes);
+                                        routeDataSource.create(rRoutes);
                                         emitter.onComplete();
                                     }
 
@@ -67,5 +73,15 @@ public class RouteRepository {
         } else {
             observer.onComplete();
         }
+    }
+
+    public void getAllRoutes(@NonNull DisposableSingleObserver<List<Route>> observer) {
+        Single.fromCallable(routeDataSource::getAll)
+                .flatMapObservable(Observable::fromIterable)
+                .map(rRouteMapper::transform)
+                .toList()
+                .subscribeOn(SchedulersHelper.INSTANCE.getScheduler(SchedulersHelper.REALM))
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(observer);
     }
 }
