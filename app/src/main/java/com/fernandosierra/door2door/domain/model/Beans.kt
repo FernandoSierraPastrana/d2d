@@ -27,7 +27,7 @@ data class Segment(val name: String?, val numStop: Int, val stops: List<Stop>, @
 
 data class Stop(val latitude: Double, val longitude: Double, val date: Long, val name: String?)
 
-data class Route(@Type val type: String, val provider: Provider, val segments: List<Segment>, val price: Price?) {
+data class Route(@Type val type: String, val provider: Provider, val segments: List<Segment>, val price: String?, val duration: Long) {
     companion object {
         const val PUBLIC_TRANSPORT = "public_transport"
         const val CAR_SHARING = "car_sharing"

@@ -10,4 +10,6 @@ interface RoutesView : BaseView {
     fun drawRoutes(routes: List<Route>)
 
     fun updateRoute(position: Int)
+
+    fun focusCurrentRoute(animate: Boolean = false)
 }

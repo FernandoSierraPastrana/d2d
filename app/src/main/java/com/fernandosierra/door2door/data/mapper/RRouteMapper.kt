@@ -4,20 +4,24 @@ import com.fernandosierra.door2door.domain.model.*
 import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.PolyUtil
 import io.realm.RealmList
+import java.text.NumberFormat
 import java.text.SimpleDateFormat
+import java.util.*
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 class RRouteMapper @Inject constructor(private val providerMapper: RProviderMapper,
                                        private val dateFormat: SimpleDateFormat) : RealmMapper<RRoute, Route> {
+    private var startDate = 0L
+    private var finalDate = 0L
 
-    override fun transform(input: RRoute): Route {
-        return Route(input.type,
-                providerMapper.transform(input.provider ?: RProvider()),
-                transformSegments(input.segments),
-                transformPrice(input.price))
-    }
+    override fun transform(input: RRoute): Route =
+            Route(input.type,
+                    providerMapper.transform(input.provider ?: RProvider()),
+                    transformSegments(input.segments),
+                    transformPrice(input.price),
+                    finalDate - startDate)
 
     private fun transformSegments(rSegments: RealmList<RSegment>): List<Segment> =
             rSegments.asSequence()
@@ -35,7 +39,16 @@ class RRouteMapper @Inject constructor(private val providerMapper: RProviderMapp
 
     private fun transformStops(rStops: RealmList<RStop>): List<Stop> =
             rStops.asSequence()
-                    .map { rStop -> Stop(rStop.latitude, rStop.longitude, dateFormat.parse(rStop.date).time, rStop.name) }
+                    .map { rStop ->
+                        val dateInMillis = dateFormat.parse(rStop.date).time
+                        if (startDate == 0L) {
+                            startDate = dateInMillis
+                        }
+                        if (finalDate < dateInMillis) {
+                            finalDate = dateInMillis
+                        }
+                        Stop(rStop.latitude, rStop.longitude, dateInMillis, rStop.name)
+                    }
                     .toList()
 
     private fun transformPolyline(polyline: String?): List<LatLng> =
@@ -45,10 +58,12 @@ class RRouteMapper @Inject constructor(private val providerMapper: RProviderMapp
                 PolyUtil.decode(polyline)
             }
 
-    private fun transformPrice(rPrice: RPrice?): Price? =
+    private fun transformPrice(rPrice: RPrice?): String? =
             if (rPrice == null) {
                 null
             } else {
-                Price(rPrice.currency, rPrice.amount)
+                val currencyFormat = NumberFormat.getCurrencyInstance()
+                currencyFormat.currency = Currency.getInstance(rPrice.currency)
+                currencyFormat.format(rPrice.amount)
             }
 }
