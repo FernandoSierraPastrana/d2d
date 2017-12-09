@@ -1,6 +1,7 @@
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/coordinator_routes"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.fernandosierra.door2door.presentation.screens.routes.RoutesActivity">
@@ -36,10 +37,13 @@
     </android.support.v7.widget.CardView>
 
     <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab_routes_thirdparty"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="@dimen/margin_routes_fab"
         android:layout_marginRight="@dimen/margin_routes_fab"
+        android:scaleX="0"
+        android:scaleY="0"
         android:src="@drawable/ic_open_thirdparty"
         app:elevation="@dimen/elevation_fab_default"
         app:fabSize="normal"

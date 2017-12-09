@@ -2,9 +2,13 @@ package com.fernandosierra.door2door.presentation.screens.routes
 
 import android.graphics.*
 import android.os.Bundle
+import android.support.design.widget.BottomSheetBehavior
+import android.support.design.widget.Snackbar
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
 import android.util.SparseArray
+import android.view.View
+import android.view.ViewGroup
 import com.fernandosierra.door2door.R
 import com.fernandosierra.door2door.domain.model.Route
 import com.fernandosierra.door2door.domain.model.Segment
@@ -14,14 +18,16 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.*
 import dagger.android.AndroidInjection
+import kotlinx.android.synthetic.main.activity_routes.*
 import javax.inject.Inject
+import kotlin.math.roundToInt
 
 
 class RoutesActivity : AppCompatActivity(), RoutesView, OnMapReadyCallback {
     companion object {
         private const val POLYLINE_WIDTH = 15.0f
         private const val DEFAULT_START = 0
-        private const val DEFAULT_ROUTE_PADDING = 40
+        private const val DEFAULT_ROUTE_PADDING = 100
         private const val DEFAULT_STOP_NAME = "You"
     }
 
@@ -29,6 +35,7 @@ class RoutesActivity : AppCompatActivity(), RoutesView, OnMapReadyCallback {
     lateinit var presenter: RoutesPresenter
     private lateinit var googleMap: GoogleMap
     private var currentRoute = 0
+    private var hasProvider = false
     private val roundCap = RoundCap()
     private lateinit var routeBounds: LatLngBounds
     private lateinit var stopBitmap: Bitmap
@@ -47,17 +54,61 @@ class RoutesActivity : AppCompatActivity(), RoutesView, OnMapReadyCallback {
     override fun onMapReady(googleMap: GoogleMap) {
         this.googleMap = googleMap
         presenter.drawRoutes()
+
+        val marginExpanded = resources.getDimensionPixelSize(R.dimen.height_routes_bottom_sheet)
+        val marginCollapsed = resources.getDimensionPixelSize(R.dimen.peek_routes_bottom_sheet)
+        val delta = marginExpanded - marginCollapsed
+
+        val mapFragment = supportFragmentManager.findFragmentById(R.id.map_routes) as SupportMapFragment
+        BottomSheetBehavior.from(card_routes).setBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
+            override fun onSlide(bottomSheet: View, slideOffset: Float) {
+                val view = mapFragment.view
+                (view?.layoutParams as ViewGroup.MarginLayoutParams).bottomMargin =
+                        marginCollapsed + (delta * slideOffset).roundToInt()
+                view.requestLayout()
+                //TODO Improve this managing the zoom by hand
+                focusCurrentRoute()
+
+                fab_routes_thirdparty.scaleX = slideOffset
+                fab_routes_thirdparty.scaleY = slideOffset
+            }
+
+            override fun onStateChanged(bottomSheet: View, newState: Int) {
+                val margin = when (newState) {
+                    BottomSheetBehavior.STATE_EXPANDED -> marginExpanded
+                    else -> marginCollapsed
+                }
+                val view = mapFragment.view
+                (view?.layoutParams as ViewGroup.MarginLayoutParams).bottomMargin = margin
+                view.requestLayout()
+                //TODO Improve this managing the zoom by hand
+                focusCurrentRoute(true)
+
+                val scale = if (margin == marginExpanded) 1.0f else 0.0f
+                fab_routes_thirdparty.scaleX = scale
+                fab_routes_thirdparty.scaleY = scale
+            }
+        })
+
         googleMap.setOnMapClickListener { focusCurrentRoute(true) }
         googleMap.uiSettings.isMapToolbarEnabled = false
     }
 
     override fun init() {
-        val mapFragment = supportFragmentManager.findFragmentById(R.id.map_routes) as SupportMapFragment
-        stopBitmap = BitmapFactory.decodeResource(resources, R.drawable.ic_stop)
         val markerBitmap = BitmapFactory.decodeResource(resources, R.drawable.ic_marker)
         startMarkerBitmap = tintBitmap(markerBitmap, ContextCompat.getColor(this, R.color.start_marker))
         endMarkerBitmap = tintBitmap(markerBitmap, ContextCompat.getColor(this, R.color.end_marker))
+
+        val mapFragment = supportFragmentManager.findFragmentById(R.id.map_routes) as SupportMapFragment
+        stopBitmap = BitmapFactory.decodeResource(resources, R.drawable.ic_stop)
+
         mapFragment.getMapAsync(this)
+    }
+
+    override fun showError() {
+        Snackbar.make(coordinator_routes, R.string.error_routes_message, Snackbar.LENGTH_INDEFINITE)
+                .setAction(R.string.error_routes_ok, { finish() })
+                .show()
     }
 
     override fun drawRoutes(routes: List<Route>) {

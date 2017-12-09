@@ -6,4 +6,6 @@
     <string name="retry_splash_retry_dialog">Retry</string>
     <string name="cancel_splash_retry_dialog">Cancel</string>
     <string name="title_activity_routes">Routes</string>
+    <string name="error_routes_message">The routes seems to head you directly to a cliff</string>
+    <string name="error_routes_ok">Close</string>
 </resources>
