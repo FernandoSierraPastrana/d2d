@@ -30,7 +30,6 @@ public class RoutesPresenter extends BasePresenter<RoutesView> {
             @Override
             public void onSuccess(List<Route> routes) {
                 RoutesPresenter.this.routes = routes;
-                secureViewCall(RoutesView::showError);
                 secureViewCall(view -> view.drawRoutes(routes));
             }
 
