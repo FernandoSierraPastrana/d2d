@@ -1,5 +1,6 @@
 package com.fernandosierra.door2door.presentation.screens.routes;
 
+import android.content.Intent;
 import android.support.annotation.NonNull;
 
 import com.fernandosierra.door2door.domain.interactor.RoutesInteractor;
@@ -35,6 +36,17 @@ public class RoutesPresenter extends BasePresenter<RoutesView> {
             public void onError(Throwable e) {
                 super.onError(e);
                 secureViewCall(RoutesView::showError);
+            }
+        });
+    }
+
+    public void openThirdParty() {
+        secureViewCall(view -> {
+            Intent thirdPartyIntent = view.getThirdPartyIntent();
+            if (thirdPartyIntent == null) {
+                view.launchStore();
+            } else {
+                view.launchThirdParty(thirdPartyIntent);
             }
         });
     }

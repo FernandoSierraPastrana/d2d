@@ -1,6 +1,9 @@
 package com.fernandosierra.door2door.presentation.screens.routes
 
+import android.content.ActivityNotFoundException
+import android.content.Intent
 import android.graphics.*
+import android.net.Uri
 import android.os.Bundle
 import android.support.design.widget.BottomSheetBehavior
 import android.support.design.widget.Snackbar
@@ -25,21 +28,20 @@ import kotlinx.android.synthetic.main.activity_routes.*
 import javax.inject.Inject
 import kotlin.math.roundToInt
 
-
 class RoutesActivity : AppCompatActivity(), RoutesView, OnMapReadyCallback {
     companion object {
         private const val POLYLINE_WIDTH = 15.0f
         private const val DEFAULT_START = 0
         private const val DEFAULT_ROUTE_PADDING = 120
         private const val DEFAULT_STOP_NAME = "You"
+        private const val MARKET_URL = "market://details?id="
+        private const val PLAY_STORE_URL = "https://play.google.com/store/apps/details?id="
     }
 
     @Inject
     lateinit var presenter: RoutesPresenter
     private lateinit var googleMap: GoogleMap
     private var currentRoute = 0
-    //FIXME check if there is an third party to display for the current route
-    private var hasProvider = true
     private val roundCap = RoundCap()
     private lateinit var routeBounds: LatLngBounds
     private lateinit var stopBitmap: Bitmap
@@ -47,6 +49,7 @@ class RoutesActivity : AppCompatActivity(), RoutesView, OnMapReadyCallback {
     private lateinit var endMarkerBitmap: Bitmap
     private lateinit var routesPageAdapter: RoutesPageAdapter
     private val mapRoutes = mutableListOf<MapRoute>()
+    private var thirdPartyPackage: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         AndroidInjection.inject(this)
@@ -111,6 +114,8 @@ class RoutesActivity : AppCompatActivity(), RoutesView, OnMapReadyCallback {
             }
         })
 
+        fab_routes_thirdparty.setOnClickListener { presenter.openThirdParty() }
+
         mapFragment.getMapAsync(this)
     }
 
@@ -125,8 +130,10 @@ class RoutesActivity : AppCompatActivity(), RoutesView, OnMapReadyCallback {
         routesPageAdapter.setRoutes(routes)
         routesPageAdapter.notifyDataSetChanged()
         routes.mapIndexed { routeIndex, route ->
-            mapRoutes.add(MapRoute(drawSegments(route.segments, routeIndex == 0)))
+            mapRoutes.add(MapRoute(drawSegments(route.segments, routeIndex == 0), route.provider.packageName))
         }
+        thirdPartyPackage = mapRoutes[currentRoute].thirdPartyPackage
+        changeThirdPartyFabVisibility(thirdPartyPackage != null)
         updateRouteBounds()
         focusCurrentRoute()
     }
@@ -135,6 +142,8 @@ class RoutesActivity : AppCompatActivity(), RoutesView, OnMapReadyCallback {
         showOrHideSegments(mapRoutes[currentRoute].segments, false)
         showOrHideSegments(mapRoutes[position].segments, true)
         currentRoute = position
+        thirdPartyPackage = mapRoutes[currentRoute].thirdPartyPackage
+        changeThirdPartyFabVisibility(thirdPartyPackage != null)
         updateRouteBounds()
         focusCurrentRoute(true)
     }
@@ -148,6 +157,25 @@ class RoutesActivity : AppCompatActivity(), RoutesView, OnMapReadyCallback {
         }
     }
 
+    override fun getThirdPartyIntent(): Intent? =
+            if (thirdPartyPackage == null) {
+                null
+            } else {
+                packageManager.getLaunchIntentForPackage(thirdPartyPackage)
+            }
+
+    override fun launchStore() {
+        try {
+            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(MARKET_URL + thirdPartyPackage)))
+        } catch (exception: ActivityNotFoundException) {
+            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(PLAY_STORE_URL + thirdPartyPackage)))
+        }
+    }
+
+    override fun launchThirdParty(intent: Intent) {
+        startActivity(intent)
+    }
+
     private fun updateMapMargin(view: View?, margin: Int) {
         (view?.layoutParams as ViewGroup.MarginLayoutParams).bottomMargin = margin
         view.requestLayout()
@@ -155,11 +183,13 @@ class RoutesActivity : AppCompatActivity(), RoutesView, OnMapReadyCallback {
         focusCurrentRoute(true)
     }
 
+    private fun changeThirdPartyFabVisibility(visible: Boolean) {
+        fab_routes_thirdparty.visibility = if (visible) View.VISIBLE else View.INVISIBLE
+    }
+
     private fun updateThirdPartyFab(scale: Float) {
-        if (hasProvider) {
-            fab_routes_thirdparty.scaleX = scale
-            fab_routes_thirdparty.scaleY = scale
-        }
+        fab_routes_thirdparty.scaleX = scale
+        fab_routes_thirdparty.scaleY = scale
     }
 
     private fun drawSegments(segments: List<Segment>, isFirstRoute: Boolean): List<MapSegment> {

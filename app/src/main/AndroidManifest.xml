@@ -43,7 +43,8 @@
 
         <activity
             android:name=".presentation.screens.routes.RoutesActivity"
-            android:label="@string/title_activity_routes">
+            android:label="@string/title_activity_routes"
+            android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.fernandosierra.door2door.presentation.screens.splash.SplashActivity" />
