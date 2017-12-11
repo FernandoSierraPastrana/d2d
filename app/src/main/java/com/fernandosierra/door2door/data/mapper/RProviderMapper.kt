@@ -1,7 +1,7 @@
 package com.fernandosierra.door2door.data.mapper
 
+import com.fernandosierra.door2door.data.model.RProvider
 import com.fernandosierra.door2door.domain.model.Provider
-import com.fernandosierra.door2door.domain.model.RProvider
 import javax.inject.Inject
 import javax.inject.Singleton
 

@@ -1,7 +1,7 @@
 package com.fernandosierra.door2door.data
 
-import com.fernandosierra.door2door.domain.model.RProvider
-import com.fernandosierra.door2door.domain.model.RRoute
+import com.fernandosierra.door2door.data.model.RProvider
+import com.fernandosierra.door2door.data.model.RRoute
 import com.google.gson.Gson
 import com.google.gson.JsonSyntaxException
 import com.google.gson.reflect.TypeToken
@@ -39,10 +39,10 @@ class LocalDataParser @Inject constructor(val gson: Gson) {
         if (providersJsonObject != null) {
             for (providerId in providersJsonObject.keys()) {
                 try {
-                    val RProviderFromJson: RProvider? = gson.fromJson(providersJsonObject.getJSONObject(providerId).toString(),
+                    val rProviderFromJson: RProvider? = gson.fromJson(providersJsonObject.getJSONObject(providerId).toString(),
                             RProvider::class.java)
-                    if (RProviderFromJson != null) {
-                        val provider = RProvider(providerId, RProviderFromJson)
+                    if (rProviderFromJson != null) {
+                        val provider = RProvider(providerId, rProviderFromJson)
                         RProviders.add(provider)
                     }
                 } catch (exception: JsonSyntaxException) {

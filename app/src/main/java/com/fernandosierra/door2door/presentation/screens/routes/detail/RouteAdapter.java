@@ -28,7 +28,9 @@ public class RouteAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     public void setRoute(@NonNull Route route) {
         Provider provider = route.getProvider();
         viewTypes.clear();
-        viewTypes.add(new RouteHeaderViewType(provider.getIcon(), provider.getDisplayName(), route.getDuration(), route.getPrice()));
+        String displayName = provider.getDisplayName();
+        viewTypes.add(new RouteHeaderViewType(provider.getIcon(), displayName == null ? provider.getId() : displayName, route.getType(),
+                route.getDuration(), route.getPrice()));
     }
 
     @Override

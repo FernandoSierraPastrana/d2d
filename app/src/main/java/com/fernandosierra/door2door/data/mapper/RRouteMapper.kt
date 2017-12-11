@@ -1,6 +1,9 @@
 package com.fernandosierra.door2door.data.mapper
 
-import com.fernandosierra.door2door.domain.model.*
+import com.fernandosierra.door2door.data.model.*
+import com.fernandosierra.door2door.domain.model.Route
+import com.fernandosierra.door2door.domain.model.Segment
+import com.fernandosierra.door2door.domain.model.Stop
 import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.PolyUtil
 import io.realm.RealmList
@@ -18,7 +21,7 @@ class RRouteMapper @Inject constructor(private val providerMapper: RProviderMapp
 
     override fun transform(input: RRoute): Route =
             Route(input.type,
-                    providerMapper.transform(input.provider ?: RProvider()),
+                    providerMapper.transform(input.providerObject ?: RProvider()),
                     transformSegments(input.segments),
                     transformPrice(input.price),
                     finalDate - startDate)

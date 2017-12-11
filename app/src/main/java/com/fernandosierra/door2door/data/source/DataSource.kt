@@ -26,7 +26,7 @@ abstract class DataSource<T : RealmObject>(private val clazz: Class<T>) {
             Realm.getDefaultInstance().use {
                 it.executeTransaction({
                     for (realmObject in realmObjects) {
-                        create(realmObject)
+                        create(realmObject, it)
                     }
                 })
             }
@@ -34,7 +34,7 @@ abstract class DataSource<T : RealmObject>(private val clazz: Class<T>) {
     fun create(realmObject: T, realm: Realm? = null) {
         when (realm) {
             null -> Realm.getDefaultInstance().copyToRealm(realmObject)
-            else -> realm.copyToRealm(realmObject)
+            else -> realm.insertOrUpdate(realmObject)
         }
     }
 

@@ -1,6 +1,6 @@
 package com.fernandosierra.door2door.data.source;
 
-import com.fernandosierra.door2door.domain.model.RRoute;
+import com.fernandosierra.door2door.data.model.RRoute;
 
 import org.jetbrains.annotations.Nullable;
 

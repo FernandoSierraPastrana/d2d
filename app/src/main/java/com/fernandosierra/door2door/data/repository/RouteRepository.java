@@ -4,9 +4,9 @@ import android.support.annotation.NonNull;
 
 import com.fernandosierra.door2door.data.LocalDataParser;
 import com.fernandosierra.door2door.data.mapper.RRouteMapper;
+import com.fernandosierra.door2door.data.model.RRoute;
 import com.fernandosierra.door2door.data.source.ProviderDataSource;
 import com.fernandosierra.door2door.data.source.RouteDataSource;
-import com.fernandosierra.door2door.domain.model.RRoute;
 import com.fernandosierra.door2door.domain.model.Route;
 import com.fernandosierra.door2door.presentation.util.SchedulersHelper;
 import com.fernandosierra.door2door.presentation.util.observer.SingleObserverAdapter;
@@ -48,7 +48,7 @@ public class RouteRepository {
                         providerDataSource.createOrUpdate(pair.getFirst());
                         Observable.fromIterable(pair.getSecond())
                                 .map(route -> {
-                                    route.setProvider(providerDataSource.getByPrimaryKey(route.getProviderId(), null));
+                                    route.setProviderObject(providerDataSource.getByPrimaryKey(route.getProviderId(), null));
                                     return route;
                                 })
                                 .toList()

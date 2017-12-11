@@ -1,4 +1,4 @@
-package com.fernandosierra.door2door.domain.model
+package com.fernandosierra.door2door.data.model
 
 import com.google.gson.annotations.SerializedName
 import io.realm.RealmObject
