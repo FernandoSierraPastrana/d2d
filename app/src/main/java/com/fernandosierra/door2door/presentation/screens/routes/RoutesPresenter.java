@@ -13,7 +13,6 @@ import javax.inject.Inject;
 
 public class RoutesPresenter extends BasePresenter<RoutesView> {
     private final RoutesInteractor routesInteractor;
-    private List<Route> routes;
 
     @Inject
     public RoutesPresenter(@NonNull RoutesView view, @NonNull RoutesInteractor routesInteractor) {
@@ -29,7 +28,6 @@ public class RoutesPresenter extends BasePresenter<RoutesView> {
         routesInteractor.getAllRoutes(new SingleObserverAdapter<List<Route>>() {
             @Override
             public void onSuccess(List<Route> routes) {
-                RoutesPresenter.this.routes = routes;
                 secureViewCall(view -> view.drawRoutes(routes));
             }
 

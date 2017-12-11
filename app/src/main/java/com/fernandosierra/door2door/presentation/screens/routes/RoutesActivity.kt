@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.support.design.widget.BottomSheetBehavior
 import android.support.design.widget.Snackbar
 import android.support.v4.content.ContextCompat
+import android.support.v4.view.ViewPager
 import android.support.v7.app.AppCompatActivity
 import android.view.View
 import android.view.ViewGroup
@@ -29,7 +30,7 @@ class RoutesActivity : AppCompatActivity(), RoutesView, OnMapReadyCallback {
     companion object {
         private const val POLYLINE_WIDTH = 15.0f
         private const val DEFAULT_START = 0
-        private const val DEFAULT_ROUTE_PADDING = 100
+        private const val DEFAULT_ROUTE_PADDING = 120
         private const val DEFAULT_STOP_NAME = "You"
     }
 
@@ -44,6 +45,7 @@ class RoutesActivity : AppCompatActivity(), RoutesView, OnMapReadyCallback {
     private lateinit var stopBitmap: Bitmap
     private lateinit var startMarkerBitmap: Bitmap
     private lateinit var endMarkerBitmap: Bitmap
+    private lateinit var routesPageAdapter: RoutesPageAdapter
     private val mapRoutes = mutableListOf<MapRoute>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -91,6 +93,24 @@ class RoutesActivity : AppCompatActivity(), RoutesView, OnMapReadyCallback {
         val mapFragment = supportFragmentManager.findFragmentById(R.id.map_routes) as SupportMapFragment
         stopBitmap = BitmapFactory.decodeResource(resources, R.drawable.ic_stop)
 
+        routesPageAdapter = RoutesPageAdapter(supportFragmentManager)
+        pager_routes_detail.adapter = routesPageAdapter
+        indicator_routes.setViewPager(pager_routes_detail)
+        routesPageAdapter.registerDataSetObserver(indicator_routes.dataSetObserver)
+        pager_routes_detail.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
+            override fun onPageScrollStateChanged(state: Int) {
+                // Nothing
+            }
+
+            override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
+                // Nothing
+            }
+
+            override fun onPageSelected(position: Int) {
+                updateRoute(position)
+            }
+        })
+
         mapFragment.getMapAsync(this)
     }
 
@@ -102,6 +122,8 @@ class RoutesActivity : AppCompatActivity(), RoutesView, OnMapReadyCallback {
 
     override fun drawRoutes(routes: List<Route>) {
         currentRoute = 0
+        routesPageAdapter.setRoutes(routes)
+        routesPageAdapter.notifyDataSetChanged()
         routes.mapIndexed { routeIndex, route ->
             mapRoutes.add(MapRoute(drawSegments(route.segments, routeIndex == 0)))
         }

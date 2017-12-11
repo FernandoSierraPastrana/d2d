@@ -4,4 +4,5 @@
     <dimen name="height_routes_bottom_sheet">300dp</dimen>
     <dimen name="elevation_fab_default">12dp</dimen>
     <dimen name="margin_routes_fab">16dp</dimen>
+    <dimen name="margin_routes_indicator_top">16dp</dimen>
 </resources>

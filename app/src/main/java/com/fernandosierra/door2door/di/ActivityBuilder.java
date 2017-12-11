@@ -1,6 +1,7 @@
 package com.fernandosierra.door2door.di;
 
 import com.fernandosierra.door2door.presentation.screens.routes.RoutesActivity;
+import com.fernandosierra.door2door.presentation.screens.routes.detail.RouteFragment;
 import com.fernandosierra.door2door.presentation.screens.splash.SplashActivity;
 
 import dagger.Module;
@@ -14,4 +15,7 @@ abstract class ActivityBuilder {
 
     @ContributesAndroidInjector
     abstract RoutesActivity bindRoutesActivity();
+
+    @ContributesAndroidInjector
+    abstract RouteFragment bindRouteFragment();
 }

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingBottom="10dp"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp"
+    android:paddingTop="35dp">
+
+    <ImageView
+        android:id="@+id/image_route_provider"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_centerVertical="true"
+        android:contentDescription="@null"
+        tools:src="@drawable/ic_launcher_foreground" />
+
+    <TextView
+        android:id="@+id/text_route_provider"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_toEndOf="@id/image_route_provider"
+        android:layout_toRightOf="@id/image_route_provider"
+        android:gravity="center"
+        android:padding="5dp"
+        tools:text="Provided by Car2Go" />
+
+    <TextView
+        android:id="@+id/text_route_duration"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_toEndOf="@id/text_route_provider"
+        android:layout_toRightOf="@id/text_route_provider"
+        android:gravity="end"
+        android:padding="5dp"
+        android:textSize="16sp"
+        android:textStyle="italic"
+        tools:text="25 min" />
+
+    <TextView
+        android:id="@+id/text_route_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@id/text_route_duration"
+        android:layout_toEndOf="@id/text_route_provider"
+        android:layout_toRightOf="@id/text_route_provider"
+        android:gravity="end"
+        android:padding="5dp"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        tools:text="12,50 €" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_alignParentBottom="true"
+        android:background="@android:color/darker_gray" />
+
+</RelativeLayout>

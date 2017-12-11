@@ -2,6 +2,8 @@ package com.fernandosierra.door2door.presentation.di;
 
 import com.fernandosierra.door2door.presentation.screens.routes.RoutesActivity;
 import com.fernandosierra.door2door.presentation.screens.routes.RoutesView;
+import com.fernandosierra.door2door.presentation.screens.routes.detail.RouteFragment;
+import com.fernandosierra.door2door.presentation.screens.routes.detail.RouteView;
 import com.fernandosierra.door2door.presentation.screens.splash.SplashActivity;
 import com.fernandosierra.door2door.presentation.screens.splash.SplashView;
 
@@ -16,4 +18,7 @@ public abstract class PresentationModule {
 
     @Binds
     abstract RoutesView bindRoutesView(RoutesActivity routesActivity);
+
+    @Binds
+    abstract RouteView bindRouteView(RouteFragment routeFragment);
 }

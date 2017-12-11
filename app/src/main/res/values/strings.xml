@@ -8,4 +8,5 @@
     <string name="title_activity_routes">Routes</string>
     <string name="error_routes_message">The routes seems to head you directly to a cliff</string>
     <string name="error_routes_ok">Close</string>
+    <string name="provider_template">Provided by %s</string>
 </resources>

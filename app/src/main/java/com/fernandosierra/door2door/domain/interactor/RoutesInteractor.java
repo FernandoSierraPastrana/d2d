@@ -8,9 +8,11 @@ import com.fernandosierra.door2door.domain.model.Route;
 import java.util.List;
 
 import javax.inject.Inject;
+import javax.inject.Singleton;
 
 import io.reactivex.observers.DisposableSingleObserver;
 
+@Singleton
 public class RoutesInteractor {
     private final RouteRepository routeRepository;
 
