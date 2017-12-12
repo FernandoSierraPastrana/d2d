@@ -5,5 +5,5 @@ import com.fernandosierra.door2door.domain.model.Segment
 class SegmentViewType(val name: String?,
                       @Segment.Mode val travelMode: String,
                       val description: String?,
-                      val color: String,
+                      val color: Int,
                       val icon: String) : ViewType

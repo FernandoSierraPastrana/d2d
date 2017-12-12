@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingLeft="15dp"
+    android:paddingRight="15dp">
+
+    <FrameLayout
+        android:id="@+id/container_stop_indicator"
+        android:layout_width="32dp"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/container_stop_title"
+        android:layout_alignParentTop="true"
+        android:orientation="vertical">
+
+        <View
+            android:id="@+id/view_stop_line"
+            android:layout_width="5dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            tools:background="@color/colorPrimaryDark" />
+
+        <ImageView
+            android:id="@+id/image_stop_indicator"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@color/cardview_light_background"
+            android:contentDescription="@null"
+            android:src="@drawable/ic_stop_map"
+            tools:tint="@color/colorPrimaryDark" />
+
+    </FrameLayout>
+
+    <LinearLayout
+        android:id="@+id/container_stop_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_toEndOf="@id/container_stop_indicator"
+        android:layout_toRightOf="@id/container_stop_indicator"
+        android:orientation="vertical"
+        android:padding="10dp">
+
+        <TextView
+            android:id="@+id/text_stop_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            tools:text="Stop title" />
+
+        <TextView
+            android:id="@+id/text_stop_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_gravity="end"
+            android:textSize="12sp"
+            android:textStyle="italic"
+            tools:text="12:30" />
+
+    </LinearLayout>
+</RelativeLayout>

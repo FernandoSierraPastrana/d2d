@@ -96,7 +96,7 @@ class RoutesActivity : AppCompatActivity(), RoutesView, OnMapReadyCallback {
         endMarkerBitmap = tintBitmap(markerBitmap, ContextCompat.getColor(this, R.color.end_marker))
 
         val mapFragment = supportFragmentManager.findFragmentById(R.id.map_routes) as SupportMapFragment
-        stopBitmap = BitmapFactory.decodeResource(resources, R.drawable.ic_stop)
+        stopBitmap = BitmapFactory.decodeResource(resources, R.drawable.ic_stop_map)
 
         routesPageAdapter = RoutesPageAdapter(supportFragmentManager)
         pager_routes_detail.adapter = routesPageAdapter

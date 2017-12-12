@@ -1,6 +1,5 @@
 package com.fernandosierra.door2door.presentation.screens.routes.detail.delegates
 
-import android.graphics.Color
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -27,9 +26,8 @@ class SegmentDelegate : RouteDelegate<SegmentViewType, SegmentDelegate.Companion
 
     override fun onBindViewHolder(holder: SegmentViewHolder?, viewType: SegmentViewType) {
         if (holder != null) {
-            val color = Color.parseColor(viewType.color)
-            holder.imageIndicator.setColorFilter(color)
-            holder.line.setBackgroundColor(color)
+            holder.imageIndicator.setColorFilter(viewType.color)
+            holder.line.setBackgroundColor(viewType.color)
             holder.name.text = viewType.name
             holder.description.text = viewType.description
             GlideSvg.loadInto(viewType.icon, holder.imageMode)
