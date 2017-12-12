@@ -12,6 +12,8 @@ import android.support.v4.view.ViewPager
 import android.support.v7.app.AppCompatActivity
 import android.view.View
 import android.view.ViewGroup
+import biz.laenger.android.vpbs.BottomSheetUtils
+import biz.laenger.android.vpbs.ViewPagerBottomSheetBehavior
 import com.fernandosierra.door2door.R
 import com.fernandosierra.door2door.domain.model.Route
 import com.fernandosierra.door2door.domain.model.Segment
@@ -68,7 +70,7 @@ class RoutesActivity : AppCompatActivity(), RoutesView, OnMapReadyCallback {
         val delta = marginExpanded - marginCollapsed
 
         val view = (supportFragmentManager.findFragmentById(R.id.map_routes) as SupportMapFragment).view
-        BottomSheetBehavior.from(card_routes).setBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
+        ViewPagerBottomSheetBehavior.from(card_routes).setBottomSheetCallback(object : ViewPagerBottomSheetBehavior.BottomSheetCallback() {
             override fun onSlide(bottomSheet: View, slideOffset: Float) {
                 updateMapMargin(view, marginCollapsed + (delta * slideOffset).roundToInt())
                 updateThirdPartyFab(slideOffset)
@@ -113,6 +115,8 @@ class RoutesActivity : AppCompatActivity(), RoutesView, OnMapReadyCallback {
                 updateRoute(position)
             }
         })
+
+        BottomSheetUtils.setupViewPager(pager_routes_detail)
 
         fab_routes_thirdparty.setOnClickListener { presenter.openThirdParty() }
 

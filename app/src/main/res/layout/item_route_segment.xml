@@ -2,39 +2,43 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingLeft="10dp"
-    android:paddingRight="10dp">
+    android:layout_height="wrap_content"
+    android:paddingLeft="15dp"
+    android:paddingRight="15dp">
 
-    <LinearLayout
+    <FrameLayout
         android:id="@+id/container_segment_indicator"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="center"
+        android:layout_alignBottom="@+id/container_segment_title"
+        android:layout_alignParentTop="true"
         android:orientation="vertical">
+
+        <View
+            android:id="@+id/view_segment_line"
+            android:layout_width="5dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            tools:background="@color/colorPrimaryDark" />
 
         <ImageView
             android:id="@+id/image_segment_indicator"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="@color/cardview_light_background"
             android:contentDescription="@null"
             android:src="@drawable/ic_segment"
-            android:tint="@color/colorPrimaryDark" />
+            tools:tint="@color/colorPrimaryDark" />
 
-        <View
-            android:id="@+id/view_segment_line"
-            android:layout_width="3dp"
-            android:layout_height="match_parent"
-            tools:background="@color/colorPrimaryDark" />
-
-    </LinearLayout>
+    </FrameLayout>
 
     <ImageView
         android:id="@+id/image_segment_mode"
-        android:layout_width="36dp"
-        android:layout_height="36dp"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
         android:contentDescription="@null"
         tools:src="@drawable/ic_launcher_foreground" />
 
@@ -64,6 +68,7 @@
             android:id="@+id/text_segment_description"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="3dp"
             android:gravity="center"
             android:textSize="12sp"
             android:textStyle="italic"
