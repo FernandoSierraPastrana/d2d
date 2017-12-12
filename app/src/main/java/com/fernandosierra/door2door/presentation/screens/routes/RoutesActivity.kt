@@ -52,6 +52,7 @@ class RoutesActivity : AppCompatActivity(), RoutesView, OnMapReadyCallback {
     private lateinit var routesPageAdapter: RoutesPageAdapter
     private val mapRoutes = mutableListOf<MapRoute>()
     private var thirdPartyPackage: String? = null
+    private var currentPage = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         AndroidInjection.inject(this)
@@ -98,7 +99,7 @@ class RoutesActivity : AppCompatActivity(), RoutesView, OnMapReadyCallback {
         val mapFragment = supportFragmentManager.findFragmentById(R.id.map_routes) as SupportMapFragment
         stopBitmap = BitmapFactory.decodeResource(resources, R.drawable.ic_stop_map)
 
-        routesPageAdapter = RoutesPageAdapter(supportFragmentManager)
+        routesPageAdapter = RoutesPageAdapter(supportFragmentManager, pager_routes_detail.id)
         pager_routes_detail.adapter = routesPageAdapter
         indicator_routes.setViewPager(pager_routes_detail)
         routesPageAdapter.registerDataSetObserver(indicator_routes.dataSetObserver)
@@ -113,6 +114,8 @@ class RoutesActivity : AppCompatActivity(), RoutesView, OnMapReadyCallback {
 
             override fun onPageSelected(position: Int) {
                 updateRoute(position)
+                routesPageAdapter.resetPage(currentPage)
+                currentPage = position
             }
         })
 

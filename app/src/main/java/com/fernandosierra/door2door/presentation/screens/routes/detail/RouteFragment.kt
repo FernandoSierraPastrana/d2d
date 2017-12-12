@@ -51,4 +51,8 @@ class RouteFragment : Fragment(), RouteView {
         routeAdapter.setRoute(route)
         routeAdapter.notifyDataSetChanged()
     }
+
+    fun reset() {
+        recyclerView.scrollToPosition(0)
+    }
 }
