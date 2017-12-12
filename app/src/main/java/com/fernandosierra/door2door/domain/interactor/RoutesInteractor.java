@@ -17,7 +17,7 @@ public class RoutesInteractor {
     private final RouteRepository routeRepository;
 
     @Inject
-    public RoutesInteractor(@NonNull RouteRepository routeRepository) {
+    RoutesInteractor(@NonNull RouteRepository routeRepository) {
         this.routeRepository = routeRepository;
     }
 

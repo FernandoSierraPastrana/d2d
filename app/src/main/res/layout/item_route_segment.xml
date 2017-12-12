@@ -3,8 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingLeft="15dp"
-    android:paddingRight="15dp">
+    android:paddingLeft="@dimen/padding_route_items"
+    android:paddingRight="@dimen/padding_route_items">
 
     <FrameLayout
         android:id="@+id/container_segment_indicator"
@@ -16,15 +16,15 @@
 
         <View
             android:id="@+id/view_segment_line"
-            android:layout_width="5dp"
+            android:layout_width="@dimen/width_route_stroke"
             android:layout_height="match_parent"
             android:layout_gravity="center"
             tools:background="@color/colorPrimaryDark" />
 
         <ImageView
             android:id="@+id/image_segment_indicator"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/width_route_indicator"
+            android:layout_height="@dimen/width_route_indicator"
             android:background="@color/cardview_light_background"
             android:contentDescription="@null"
             android:src="@drawable/ic_segment"
@@ -34,8 +34,8 @@
 
     <ImageView
         android:id="@+id/image_segment_mode"
-        android:layout_width="32dp"
-        android:layout_height="32dp"
+        android:layout_width="@dimen/width_route_indicator"
+        android:layout_height="@dimen/width_route_indicator"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
@@ -46,21 +46,31 @@
         android:id="@+id/container_segment_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
         android:layout_toEndOf="@id/container_segment_indicator"
         android:layout_toLeftOf="@id/image_segment_mode"
         android:layout_toRightOf="@id/container_segment_indicator"
         android:layout_toStartOf="@id/image_segment_mode"
-        android:gravity="center"
         android:orientation="vertical"
-        android:padding="5dp">
+        android:padding="@dimen/padding_all_small">
+
+        <TextView
+            android:id="@+id/text_segment_mode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/margin_all_standard"
+            android:textSize="@dimen/size_all_big"
+            android:textStyle="italic|bold"
+            tools:text="Walking"
+            tools:textColor="@color/colorPrimaryDark" />
 
         <TextView
             android:id="@+id/text_segment_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin_all_standard"
+            android:layout_marginStart="@dimen/margin_all_standard"
             android:gravity="center"
-            android:textSize="16sp"
+            android:textSize="@dimen/size_all_normal"
             android:textStyle="bold"
             tools:text="Segment title" />
 
@@ -68,10 +78,11 @@
             android:id="@+id/text_segment_description"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="3dp"
+            android:layout_marginLeft="@dimen/margin_all_standard"
+            android:layout_marginStart="@dimen/margin_all_standard"
+            android:layout_marginTop="@dimen/margin_route_segment_description"
             android:gravity="center"
-            android:textSize="12sp"
-            android:textStyle="italic"
+            android:textSize="@dimen/size_all_xsmall"
             tools:text="Segment description" />
 
     </LinearLayout>

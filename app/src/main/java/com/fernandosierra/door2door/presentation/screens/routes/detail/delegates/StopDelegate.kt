@@ -13,7 +13,8 @@ class StopDelegate : RouteDelegate<StopViewType, StopDelegate.Companion.StopView
     companion object {
         class StopViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
             val imageIndicator = itemView.findViewById(R.id.image_stop_indicator) as ImageView
-            val line = itemView.findViewById(R.id.view_stop_line) as View
+            val lineTop = itemView.findViewById(R.id.view_stop_line_top) as View
+            val lineBottom = itemView.findViewById(R.id.view_stop_line_bottom) as View
             val name = itemView.findViewById(R.id.text_stop_name) as TextView
             val date = itemView.findViewById(R.id.text_stop_date) as TextView
         }
@@ -24,13 +25,18 @@ class StopDelegate : RouteDelegate<StopViewType, StopDelegate.Companion.StopView
 
     override fun onBindViewHolder(holder: StopViewHolder?, viewType: StopViewType) {
         if (holder != null) {
+            holder.lineTop.setBackgroundColor(viewType.color)
+            holder.lineBottom.setBackgroundColor(viewType.color)
             if (viewType.isLast) {
                 holder.imageIndicator.setImageResource(R.drawable.ic_segment)
+                holder.lineBottom.visibility = View.GONE
             } else {
                 holder.imageIndicator.setImageResource(R.drawable.ic_stop)
+                holder.lineBottom.visibility = View.VISIBLE
             }
             holder.imageIndicator.setColorFilter(viewType.color)
-            holder.line.setBackgroundColor(viewType.color)
+
+
             holder.name.text = viewType.name
             holder.date.text = viewType.date
         }

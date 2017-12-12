@@ -5,4 +5,18 @@
     <dimen name="elevation_fab_default">12dp</dimen>
     <dimen name="margin_routes_fab">16dp</dimen>
     <dimen name="margin_routes_indicator">13dp</dimen>
+    <dimen name="padding_route_items">25dp</dimen>
+    <dimen name="width_route_indicator">32dp</dimen>
+    <dimen name="width_route_stroke">6dp</dimen>
+    <dimen name="margin_all_standard">10dp</dimen>
+    <dimen name="size_all_xsmall">12sp</dimen>
+    <dimen name="padding_all_small">5dp</dimen>
+    <dimen name="size_all_normal">16sp</dimen>
+    <dimen name="size_all_big">18sp</dimen>
+    <dimen name="margin_route_line_stop">13dp</dimen>
+    <dimen name="size_all_small">14sp</dimen>
+    <dimen name="margin_route_segment_description">3dp</dimen>
+    <dimen name="margin_route_header">16dp</dimen>
+    <dimen name="width_route_provider_image">65dp</dimen>
+    <dimen name="padding_route_stop_name">20dp</dimen>
 </resources>

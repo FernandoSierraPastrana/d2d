@@ -3,8 +3,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="10dp"
-    android:layout_marginBottom="16dp">
+    android:layout_marginBottom="@dimen/margin_route_header"
+    android:paddingBottom="@dimen/margin_all_standard"
+    android:paddingLeft="@dimen/margin_all_standard"
+    android:paddingRight="@dimen/margin_all_standard">
 
     <LinearLayout
         android:id="@+id/container_route_provider"
@@ -16,8 +18,8 @@
 
         <ImageView
             android:id="@+id/image_route_provider"
-            android:layout_width="65dp"
-            android:layout_height="65dp"
+            android:layout_width="@dimen/width_route_provider_image"
+            android:layout_height="@dimen/width_route_provider_image"
             android:contentDescription="@null"
             tools:src="@drawable/ic_launcher_foreground" />
 
@@ -26,7 +28,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:textSize="12sp"
+            android:textSize="@dimen/size_all_xsmall"
             android:textStyle="italic"
             tools:text="by Car2Go" />
     </LinearLayout>
@@ -37,8 +39,8 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:gravity="center"
-        android:padding="5dp"
-        android:textSize="18sp"
+        android:padding="@dimen/size_all_xsmall"
+        android:textSize="@dimen/size_all_big"
         android:textStyle="bold"
         tools:text="Bike sharing" />
 
@@ -57,8 +59,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="end"
-            android:padding="5dp"
-            android:textSize="18sp"
+            android:padding="@dimen/size_all_xsmall"
+            android:textSize="@dimen/size_all_big"
             android:textStyle="bold"
             tools:text="12,50 €" />
 
@@ -67,9 +69,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="end"
-            android:padding="5dp"
-            android:textSize="16sp"
+            android:padding="@dimen/size_all_xsmall"
+            android:textSize="@dimen/size_all_normal"
             tools:text="25 min" />
     </LinearLayout>
-
 </RelativeLayout>

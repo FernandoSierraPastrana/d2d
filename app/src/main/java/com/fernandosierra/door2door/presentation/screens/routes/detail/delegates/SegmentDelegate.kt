@@ -16,6 +16,7 @@ class SegmentDelegate : RouteDelegate<SegmentViewType, SegmentDelegate.Companion
             val imageIndicator = itemView.findViewById(R.id.image_segment_indicator) as ImageView
             val line = itemView.findViewById(R.id.view_segment_line) as View
             val imageMode = itemView.findViewById(R.id.image_segment_mode) as ImageView
+            val mode = itemView.findViewById(R.id.text_segment_mode) as TextView
             val name = itemView.findViewById(R.id.text_segment_name) as TextView
             val description = itemView.findViewById(R.id.text_segment_description) as TextView
         }
@@ -28,8 +29,20 @@ class SegmentDelegate : RouteDelegate<SegmentViewType, SegmentDelegate.Companion
         if (holder != null) {
             holder.imageIndicator.setColorFilter(viewType.color)
             holder.line.setBackgroundColor(viewType.color)
-            holder.name.text = viewType.name
-            holder.description.text = viewType.description
+            holder.mode.setTextColor(viewType.color)
+            holder.mode.text = viewType.travelMode.capitalize()
+            if (viewType.name == null) {
+                holder.name.visibility = View.GONE
+            } else {
+                holder.name.visibility = View.VISIBLE
+                holder.name.text = viewType.name
+            }
+            if (viewType.description == null) {
+                holder.description.visibility = View.GONE
+            } else {
+                holder.description.visibility = View.VISIBLE
+                holder.description.text = viewType.description
+            }
             GlideSvg.loadInto(viewType.icon, holder.imageMode)
         }
     }
