@@ -20,6 +20,7 @@ allprojects {
         google()
         jcenter()
         maven { url "https://raw.github.com/laenger/maven-releases/master/releases" }
+        maven { url 'https://jitpack.io' }
     }
 }
 

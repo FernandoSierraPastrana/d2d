@@ -1,5 +1,6 @@
 package com.fernandosierra.door2door.presentation.screens.routes.detail.delegates
 
+import android.support.v4.util.Pair
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -8,8 +9,11 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.fernandosierra.door2door.R
 import com.fernandosierra.door2door.presentation.screens.routes.detail.viewtypes.StopViewType
+import io.reactivex.Single
+import io.reactivex.SingleObserver
 
-class StopDelegate : RouteDelegate<StopViewType, StopDelegate.Companion.StopViewHolder> {
+class StopDelegate(private val observer: SingleObserver<Pair<Int, Int>>)
+    : RouteDelegate<StopViewType, StopDelegate.Companion.StopViewHolder> {
     companion object {
         class StopViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
             val imageIndicator = itemView.findViewById(R.id.image_stop_indicator) as ImageView
@@ -35,10 +39,9 @@ class StopDelegate : RouteDelegate<StopViewType, StopDelegate.Companion.StopView
                 holder.lineBottom.visibility = View.VISIBLE
             }
             holder.imageIndicator.setColorFilter(viewType.color)
-
-
             holder.name.text = viewType.name
             holder.date.text = viewType.date
+            holder.itemView.setOnClickListener({ Single.just(Pair(viewType.segmentIndex, viewType.stopIndex)).subscribe(observer) })
         }
     }
 }

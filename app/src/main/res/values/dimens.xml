@@ -19,4 +19,5 @@
     <dimen name="margin_route_header">16dp</dimen>
     <dimen name="width_route_provider_image">65dp</dimen>
     <dimen name="padding_route_stop_name">20dp</dimen>
+    <dimen name="margin_route_segment_mode">16dp</dimen>
 </resources>

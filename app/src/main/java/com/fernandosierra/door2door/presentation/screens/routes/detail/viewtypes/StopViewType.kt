@@ -3,7 +3,8 @@ package com.fernandosierra.door2door.presentation.screens.routes.detail.viewtype
 import java.text.SimpleDateFormat
 import java.util.*
 
-class StopViewType(val name: String?, dateInMillis: Long, val color: Int, val isLast: Boolean) : ViewType {
+class StopViewType(val segmentIndex: Int, val stopIndex: Int, val name: String?, dateInMillis: Long, val color: Int, val isLast: Boolean)
+    : ViewType {
     val date = parseDate(dateInMillis)
 
     companion object {

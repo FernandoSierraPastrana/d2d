@@ -4,23 +4,27 @@ import android.support.annotation.IdRes;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.util.Pair;
 
 import com.fernandosierra.door2door.domain.model.Route;
 import com.fernandosierra.door2door.presentation.screens.routes.detail.RouteFragment;
 
 import java.util.List;
 
+import io.reactivex.Observer;
 import io.reactivex.annotations.NonNull;
 
 public class RoutesPageAdapter extends FragmentPagerAdapter {
     private FragmentManager fragmentManager;
     private List<Route> routes;
     private int viewPagerId;
+    private Observer<Pair<Integer, Integer>> observer;
 
-    public RoutesPageAdapter(@NonNull FragmentManager fm, @IdRes int viewPagerId) {
+    public RoutesPageAdapter(@NonNull FragmentManager fm, @NonNull Observer<Pair<Integer, Integer>> observer, @IdRes int viewPagerId) {
         super(fm);
         this.fragmentManager = fm;
         this.viewPagerId = viewPagerId;
+        this.observer = observer;
     }
 
     public void setRoutes(@NonNull List<Route> routes) {
@@ -29,7 +33,9 @@ public class RoutesPageAdapter extends FragmentPagerAdapter {
 
     @Override
     public RouteFragment getItem(int position) {
-        return RouteFragment.Companion.newInstance(routes.get(position));
+        RouteFragment routeFragment = RouteFragment.Companion.newInstance(routes.get(position));
+        routeFragment.setObserver(observer);
+        return routeFragment;
     }
 
     @Override

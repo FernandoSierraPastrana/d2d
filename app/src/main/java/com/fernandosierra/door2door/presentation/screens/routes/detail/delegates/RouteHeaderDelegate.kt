@@ -8,7 +8,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.fernandosierra.door2door.R
 import com.fernandosierra.door2door.presentation.screens.routes.detail.viewtypes.RouteHeaderViewType
-import com.fernandosierra.door2door.presentation.util.svg.GlideSvg
+import com.fernandosierra.door2door.presentation.util.GlideApp
 
 class RouteHeaderDelegate : RouteDelegate<RouteHeaderViewType, RouteHeaderDelegate.Companion.HeaderViewHolder> {
     companion object {
@@ -34,7 +34,10 @@ class RouteHeaderDelegate : RouteDelegate<RouteHeaderViewType, RouteHeaderDelega
             holder.type.setText(viewType.typeStringRes)
             holder.price.text = viewType.price
             holder.duration.text = viewType.duration
-            GlideSvg.loadInto(viewType.providerIcon, holder.providerImage)
+            GlideApp.with(holder.providerImage)
+                    .asSvg()
+                    .load(viewType.providerIcon)
+                    .into(holder.providerImage)
         }
     }
 }

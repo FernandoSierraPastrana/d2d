@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.support.design.widget.BottomSheetBehavior
 import android.support.design.widget.Snackbar
 import android.support.v4.content.ContextCompat
+import android.support.v4.util.Pair
 import android.support.v4.view.ViewPager
 import android.support.v7.app.AppCompatActivity
 import android.view.View
@@ -20,6 +21,8 @@ import com.fernandosierra.door2door.domain.model.Segment
 import com.fernandosierra.door2door.domain.model.Stop
 import com.fernandosierra.door2door.presentation.model.MapRoute
 import com.fernandosierra.door2door.presentation.model.MapSegment
+import com.fernandosierra.door2door.presentation.screens.routes.detail.RouteAdapter
+import com.fernandosierra.door2door.presentation.util.observer.ObserverAdapter
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -38,6 +41,7 @@ class RoutesActivity : AppCompatActivity(), RoutesView, OnMapReadyCallback {
         private const val DEFAULT_STOP_NAME = "You"
         private const val MARKET_URL = "market://details?id="
         private const val PLAY_STORE_URL = "https://play.google.com/store/apps/details?id="
+        private const val STOP_ZOOM = 17.0f
     }
 
     @Inject
@@ -99,7 +103,15 @@ class RoutesActivity : AppCompatActivity(), RoutesView, OnMapReadyCallback {
         val mapFragment = supportFragmentManager.findFragmentById(R.id.map_routes) as SupportMapFragment
         stopBitmap = BitmapFactory.decodeResource(resources, R.drawable.ic_stop_map)
 
-        routesPageAdapter = RoutesPageAdapter(supportFragmentManager, pager_routes_detail.id)
+        routesPageAdapter = RoutesPageAdapter(supportFragmentManager, object : ObserverAdapter<Pair<Int, Int>>() {
+            override fun onNext(segmentAndStopIndexes: Pair<Int, Int>) {
+                if (segmentAndStopIndexes.second == RouteAdapter.NO_STOP) {
+                    focusSegment(segmentAndStopIndexes.first)
+                } else {
+                    focusStop(segmentAndStopIndexes.first, segmentAndStopIndexes.second)
+                }
+            }
+        }, pager_routes_detail.id)
         pager_routes_detail.adapter = routesPageAdapter
         indicator_routes.setViewPager(pager_routes_detail)
         routesPageAdapter.registerDataSetObserver(indicator_routes.dataSetObserver)
@@ -181,6 +193,20 @@ class RoutesActivity : AppCompatActivity(), RoutesView, OnMapReadyCallback {
 
     override fun launchThirdParty(intent: Intent) {
         startActivity(intent)
+    }
+
+    private fun focusSegment(segmentIndex: Int) {
+        val builder = LatLngBounds.Builder()
+        val points = mapRoutes[currentRoute].segments[segmentIndex].polyline.points
+        if (!points.isEmpty()) {
+            points.map { builder.include(it) }
+            googleMap.animateCamera(CameraUpdateFactory.newLatLngBounds(builder.build(), DEFAULT_ROUTE_PADDING))
+        }
+    }
+
+    private fun focusStop(segmentIndex: Int, stopIndex: Int) {
+        googleMap.animateCamera(
+                CameraUpdateFactory.newLatLngZoom(mapRoutes[currentRoute].segments[segmentIndex].stops[stopIndex].position, STOP_ZOOM))
     }
 
     private fun updateMapMargin(view: View?, margin: Int) {

@@ -9,7 +9,7 @@ import com.fernandosierra.door2door.data.source.ProviderDataSource;
 import com.fernandosierra.door2door.data.source.RouteDataSource;
 import com.fernandosierra.door2door.domain.model.Route;
 import com.fernandosierra.door2door.presentation.util.SchedulersHelper;
-import com.fernandosierra.door2door.presentation.util.observer.SingleObserverAdapter;
+import com.fernandosierra.door2door.presentation.util.observer.SingleDisposableObserverAdapter;
 
 import java.util.List;
 
@@ -52,7 +52,7 @@ public class RouteRepository {
                                     return route;
                                 })
                                 .toList()
-                                .subscribe(new SingleObserverAdapter<List<RRoute>>() {
+                                .subscribe(new SingleDisposableObserverAdapter<List<RRoute>>() {
                                     @Override
                                     public void onSuccess(List<RRoute> rRoutes) {
                                         routeDataSource.deleteAll();

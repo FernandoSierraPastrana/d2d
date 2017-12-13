@@ -8,9 +8,12 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.fernandosierra.door2door.R
 import com.fernandosierra.door2door.presentation.screens.routes.detail.viewtypes.SegmentViewType
-import com.fernandosierra.door2door.presentation.util.svg.GlideSvg
+import com.fernandosierra.door2door.presentation.util.GlideApp
+import io.reactivex.Single
+import io.reactivex.SingleObserver
 
-class SegmentDelegate : RouteDelegate<SegmentViewType, SegmentDelegate.Companion.SegmentViewHolder> {
+class SegmentDelegate(private val observer: SingleObserver<Int>)
+    : RouteDelegate<SegmentViewType, SegmentDelegate.Companion.SegmentViewHolder> {
     companion object {
         class SegmentViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
             val imageIndicator = itemView.findViewById(R.id.image_segment_indicator) as ImageView
@@ -43,7 +46,12 @@ class SegmentDelegate : RouteDelegate<SegmentViewType, SegmentDelegate.Companion
                 holder.description.visibility = View.VISIBLE
                 holder.description.text = viewType.description
             }
-            GlideSvg.loadInto(viewType.icon, holder.imageMode)
+            holder.imageMode.setColorFilter(viewType.color)
+            GlideApp.with(holder.imageMode)
+                    .asSvg()
+                    .load(viewType.icon)
+                    .into(holder.imageMode)
+            holder.itemView.setOnClickListener({ Single.just(viewType.segmentIndex).subscribe(observer) })
         }
     }
 }

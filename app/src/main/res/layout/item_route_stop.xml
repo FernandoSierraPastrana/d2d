@@ -3,25 +3,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="?android:attr/selectableItemBackground"
     android:paddingLeft="@dimen/padding_route_items"
     android:paddingRight="@dimen/padding_route_items">
 
     <View
         android:id="@+id/view_stop_line_top"
         android:layout_width="@dimen/width_route_stroke"
-        android:layout_height="match_parent"
-        android:layout_alignBottom="@id/image_stop_indicator"
-        android:layout_alignTop="@id/text_stop_name"
-        android:layout_marginLeft="@dimen/margin_route_line_stop"
-        android:layout_marginStart="@dimen/margin_route_line_stop"
-        tools:background="@color/colorPrimaryDark" />
-
-    <View
-        android:id="@+id/view_stop_line_bottom"
-        android:layout_width="@dimen/width_route_stroke"
-        android:layout_height="match_parent"
-        android:layout_alignBottom="@id/text_stop_name"
-        android:layout_alignTop="@id/image_stop_indicator"
+        android:layout_height="@dimen/padding_route_stop_name"
+        android:layout_alignParentTop="true"
         android:layout_marginLeft="@dimen/margin_route_line_stop"
         android:layout_marginStart="@dimen/margin_route_line_stop"
         tools:background="@color/colorPrimaryDark" />
@@ -30,11 +20,19 @@
         android:id="@+id/image_stop_indicator"
         android:layout_width="@dimen/width_route_indicator"
         android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:background="@color/cardview_light_background"
+        android:layout_below="@id/view_stop_line_top"
         android:contentDescription="@null"
         android:src="@drawable/ic_stop_map"
         tools:tint="@color/colorPrimaryDark" />
+
+    <View
+        android:id="@+id/view_stop_line_bottom"
+        android:layout_width="@dimen/width_route_stroke"
+        android:layout_height="@dimen/padding_route_stop_name"
+        android:layout_below="@id/image_stop_indicator"
+        android:layout_marginLeft="@dimen/margin_route_line_stop"
+        android:layout_marginStart="@dimen/margin_route_line_stop"
+        tools:background="@color/colorAccent" />
 
     <TextView
         android:id="@+id/text_stop_name"
@@ -45,12 +43,9 @@
         android:layout_toLeftOf="@id/text_stop_date"
         android:layout_toRightOf="@id/image_stop_indicator"
         android:layout_toStartOf="@id/text_stop_date"
-        android:paddingBottom="@dimen/padding_route_stop_name"
-        android:paddingLeft="@dimen/margin_all_standard"
-        android:paddingRight="@dimen/margin_all_standard"
-        android:paddingTop="@dimen/padding_route_stop_name"
+        android:padding="@dimen/margin_all_standard"
         android:textSize="@dimen/size_all_small"
-        tools:text="Stop title" />
+        tools:text="Stop title\nTwo Lines" />
 
     <TextView
         android:id="@+id/text_stop_date"

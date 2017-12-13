@@ -57,15 +57,14 @@ dependencies {
     implementation 'com.google.android.gms:play-services-maps:11.6.2'
     implementation 'com.google.maps.android:android-maps-utils:0.5'
     implementation 'me.relex:circleindicator:1.2.2@aar'
-    implementation 'com.github.bumptech.glide:glide:4.3.1'
-    implementation 'com.caverock:androidsvg:1.2.1'
     implementation 'biz.laenger.android:vpbs:0.0.4'
+    implementation 'com.github.qoqa:glide-svg:1.0.0'
     kapt 'com.google.dagger:dagger-compiler:2.13'
     kapt 'com.google.dagger:dagger-android-processor:2.13'
-    kapt 'com.github.bumptech.glide:compiler:4.4.0'
+    kapt 'com.github.bumptech.glide:compiler:4.3.1'
     annotationProcessor 'com.google.dagger:dagger-compiler:2.13'
     annotationProcessor 'com.google.dagger:dagger-android-processor:2.13'
-    annotationProcessor 'com.github.bumptech.glide:compiler:4.4.0'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.3.1'
 
     testImplementation 'junit:junit:4.12'
 

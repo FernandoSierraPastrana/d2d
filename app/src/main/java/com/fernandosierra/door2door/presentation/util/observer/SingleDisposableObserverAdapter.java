@@ -1,16 +1,9 @@
 package com.fernandosierra.door2door.presentation.util.observer;
 
-import io.reactivex.SingleObserver;
-import io.reactivex.disposables.Disposable;
+import io.reactivex.observers.DisposableSingleObserver;
 import timber.log.Timber;
 
-public abstract class SingleObserverAdapter<T> implements SingleObserver<T> {
-
-    @Override
-    public void onSubscribe(Disposable d) {
-        // Nothing
-    }
-
+public abstract class SingleDisposableObserverAdapter<T> extends DisposableSingleObserver<T> {
     @Override
     public void onSuccess(T t) {
         // Optional

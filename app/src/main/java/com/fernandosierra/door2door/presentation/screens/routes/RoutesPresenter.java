@@ -6,7 +6,7 @@ import android.support.annotation.NonNull;
 import com.fernandosierra.door2door.domain.interactor.RoutesInteractor;
 import com.fernandosierra.door2door.domain.model.Route;
 import com.fernandosierra.door2door.presentation.base.BasePresenter;
-import com.fernandosierra.door2door.presentation.util.observer.SingleObserverAdapter;
+import com.fernandosierra.door2door.presentation.util.observer.SingleDisposableObserverAdapter;
 
 import java.util.List;
 
@@ -26,7 +26,7 @@ public class RoutesPresenter extends BasePresenter<RoutesView> {
     }
 
     public void drawRoutes() {
-        routesInteractor.getAllRoutes(new SingleObserverAdapter<List<Route>>() {
+        routesInteractor.getAllRoutes(new SingleDisposableObserverAdapter<List<Route>>() {
             @Override
             public void onSuccess(List<Route> routes) {
                 secureViewCall(view -> view.drawRoutes(routes));
