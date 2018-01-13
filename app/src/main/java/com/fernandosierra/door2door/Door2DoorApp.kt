@@ -4,7 +4,6 @@ import android.app.Activity
 import android.app.Application
 import android.support.v4.app.Fragment
 import com.fernandosierra.door2door.di.DaggerAppComponent
-import com.fernandosierra.door2door.presentation.util.Door2DoorUtils
 import com.fernandosierra.door2door.presentation.util.SchedulersHelper
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
@@ -28,7 +27,6 @@ class Door2DoorApp : Application(), HasActivityInjector, HasSupportFragmentInjec
                 .inject(this)
         SchedulersHelper.init()
         Realm.init(this)
-        Door2DoorUtils.init(this)
         if (BuildConfig.DEBUG) {
             Timber.plant(Timber.DebugTree())
         }

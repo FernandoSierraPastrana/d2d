@@ -27,31 +27,29 @@ class RRouteMapper @Inject constructor(private val providerMapper: RProviderMapp
                     finalDate - startDate)
 
     private fun transformSegments(rSegments: RealmList<RSegment>): List<Segment> =
-            rSegments.asSequence()
-                    .map { rSegment ->
-                        Segment(rSegment.name,
-                                rSegment.numStop,
-                                transformStops(rSegment.stops),
-                                rSegment.travelMode,
-                                rSegment.description,
-                                rSegment.color,
-                                rSegment.icon,
-                                transformPolyline(rSegment.polyline))
-                    }
+            rSegments.map { rSegment ->
+                Segment(rSegment.name,
+                        rSegment.numStop,
+                        transformStops(rSegment.stops),
+                        rSegment.travelMode,
+                        rSegment.description,
+                        rSegment.color,
+                        rSegment.icon,
+                        transformPolyline(rSegment.polyline))
+            }
                     .toList()
 
     private fun transformStops(rStops: RealmList<RStop>): List<Stop> =
-            rStops.asSequence()
-                    .map { rStop ->
-                        val dateInMillis = dateFormat.parse(rStop.date).time
-                        if (startDate == 0L) {
-                            startDate = dateInMillis
-                        }
-                        if (finalDate < dateInMillis) {
-                            finalDate = dateInMillis
-                        }
-                        Stop(rStop.latitude, rStop.longitude, dateInMillis, rStop.name)
-                    }
+            rStops.map { rStop ->
+                val dateInMillis = dateFormat.parse(rStop.date).time
+                if (startDate == 0L) {
+                    startDate = dateInMillis
+                }
+                if (finalDate < dateInMillis) {
+                    finalDate = dateInMillis
+                }
+                Stop(rStop.latitude, rStop.longitude, dateInMillis, rStop.name)
+            }
                     .toList()
 
     private fun transformPolyline(polyline: String?): List<LatLng> =

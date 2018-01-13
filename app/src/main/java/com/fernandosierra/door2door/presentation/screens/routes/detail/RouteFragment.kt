@@ -1,5 +1,6 @@
 package com.fernandosierra.door2door.presentation.screens.routes.detail
 
+import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.util.Pair
@@ -16,6 +17,9 @@ import kotlinx.android.synthetic.main.fragment_route.*
 import javax.inject.Inject
 
 class RouteFragment : Fragment(), RouteView {
+    override val ctx: Context?
+        get() = activity
+
     private lateinit var route: Route
     private lateinit var recyclerView: RecyclerView
     private lateinit var routeAdapter: RouteAdapter
@@ -49,7 +53,7 @@ class RouteFragment : Fragment(), RouteView {
         route = arguments!!.getParcelable(EXTRA_ROUTE)
         recyclerView = recycler_route
         recyclerView.setHasFixedSize(true)
-        recyclerView.layoutManager = LinearLayoutManager(context)
+        recyclerView.layoutManager = LinearLayoutManager(ctx)
         routeAdapter = RouteAdapter(observer)
         recyclerView.adapter = routeAdapter
         routeAdapter.setRoute(route)

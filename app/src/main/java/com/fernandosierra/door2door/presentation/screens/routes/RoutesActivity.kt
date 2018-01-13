@@ -1,6 +1,7 @@
 package com.fernandosierra.door2door.presentation.screens.routes
 
 import android.content.ActivityNotFoundException
+import android.content.Context
 import android.content.Intent
 import android.graphics.*
 import android.net.Uri
@@ -43,6 +44,9 @@ class RoutesActivity : AppCompatActivity(), RoutesView, OnMapReadyCallback {
         private const val PLAY_STORE_URL = "https://play.google.com/store/apps/details?id="
         private const val STOP_ZOOM = 17.0f
     }
+
+    override val ctx: Context
+        get() = this
 
     @Inject
     lateinit var presenter: RoutesPresenter

@@ -8,7 +8,6 @@ import javax.inject.Singleton
 @Singleton
 class RProviderMapper @Inject constructor() : RealmMapper<RProvider, Provider> {
 
-    override fun transform(input: RProvider): Provider {
-        return Provider(input.id, input.icon, input.disclaimer, input.displayName, input.packageName)
-    }
+    override fun transform(input: RProvider): Provider =
+            Provider(input.id, input.icon, input.disclaimer, input.displayName, input.packageName)
 }

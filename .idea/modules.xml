@@ -4,7 +4,8 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Door2Door.iml" filepath="$PROJECT_DIR$/Door2Door.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://D:\Codes\Android\Door2Door\d2d.iml" filepath="D:\Codes\Android\Door2Door\d2d.iml" />
+      <module fileurl="file://$PROJECT_DIR$/d2d.iml" filepath="$PROJECT_DIR$/d2d.iml" />
+      <module fileurl="file://D:/Codes/Android/Door2Door/d2d.iml" filepath="D:/Codes/Android/Door2Door/d2d.iml" />
     </modules>
   </component>
 </project>

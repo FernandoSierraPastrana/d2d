@@ -8,7 +8,7 @@ interface SplashView : BaseView {
 
     fun showLoader()
 
-    fun hideLoader(onAnimationEnd: Runnable? = null)
+    fun hideLoader(callback: (() -> Unit)? = null)
 
     fun showErrorDialog()
 

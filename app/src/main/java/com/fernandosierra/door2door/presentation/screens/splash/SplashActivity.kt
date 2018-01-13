@@ -1,5 +1,6 @@
 package com.fernandosierra.door2door.presentation.screens.splash
 
+import android.content.Context
 import android.os.Bundle
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
@@ -12,6 +13,9 @@ import kotlinx.android.synthetic.main.activity_splash.*
 import javax.inject.Inject
 
 class SplashActivity : AppCompatActivity(), SplashView {
+    override val ctx: Context
+        get() = this
+
     @Inject
     lateinit var presenter: SplashPresenter
     lateinit var loaderView: LoaderView
@@ -36,8 +40,8 @@ class SplashActivity : AppCompatActivity(), SplashView {
         loaderView.playAnimation()
     }
 
-    override fun hideLoader(onAnimationEnd: Runnable?) {
-        loaderView.cancelAnimation(onAnimationEnd)
+    override fun hideLoader(callback: (() -> Unit)?) {
+        loaderView.cancelAnimation(callback)
     }
 
     override fun showErrorDialog() {
